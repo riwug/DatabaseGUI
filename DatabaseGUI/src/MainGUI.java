@@ -16,12 +16,19 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
  
 public class MainGUI extends Application {
+	
+	private DatabaseManager databaseManager;
+	
     public static void main(String[] args) {
         launch(args);
     }
     
     @Override
     public void start(Stage primaryStage) {
+    	
+    	// use this to connect to MySQL DB
+    	// databaseManager = new DatabaseManager();
+    	
         primaryStage.setTitle("JavaFX Welcome");
         
         GridPane grid = new GridPane();
@@ -58,7 +65,7 @@ public class MainGUI extends Application {
             @Override
             public void handle(ActionEvent e) {
                 actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("data saved in database!");
+                actiontarget.setText("data saved in db! (not working)");
             }
         });
 
@@ -66,8 +73,5 @@ public class MainGUI extends Application {
         primaryStage.setScene(scene);
         
         primaryStage.show();
-        
-        // alibi change 2
     }
-    
 }
