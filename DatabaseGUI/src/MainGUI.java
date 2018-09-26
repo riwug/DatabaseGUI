@@ -28,13 +28,13 @@ public class MainGUI extends Application {
 	
     //private String[] varList;
     private String vFirstName = "FjhjhName";
-    //private String varLastName = "LName";
-    //private String varTelephone = "012345";
+    private String vLastName = "LName";
+    private String vTelephone = "012345";
 
     
-    public String getFirstName() { 
-    	
-    	return vFirstName; 
+    public String[] getFirstName() { 
+    	String[] vArray = {vFirstName, vLastName, vTelephone};
+    	return vArray; 
     	
     }
     
