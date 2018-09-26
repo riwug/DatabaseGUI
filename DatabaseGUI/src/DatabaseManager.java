@@ -6,9 +6,10 @@ public class DatabaseManager {
 	
 	// use getter to get vars from mainGUI
     MainGUI MG = new MainGUI();
-    String varFirstName = MG.getFirstName();
+    String varFirstName1 = MG.getFirstName();
  // use getter to get vars from mainGUI
 	
+    
     
     
 	public DatabaseManager() { // string varFirstName, string varLastName, string varTelephone
@@ -39,7 +40,7 @@ public class DatabaseManager {
 	    
 	    // create the mysql insert preparedstatement
 	    PreparedStatement preparedStmt = conn.prepareStatement(query);
-	    preparedStmt.setString (1, varFirstName); // preparedStmt.setString (1, "Fanta"); // 
+	    preparedStmt.setString (1, varFirstName1); // preparedStmt.setString (1, "Fanta"); // 
 	    preparedStmt.setString (2, varLastName); //preparedStmt.setString (2, "Trinker");
 	    preparedStmt.setString   (3, varTelephone); // preparedStmt.setString   (3, "1234");
 	      
