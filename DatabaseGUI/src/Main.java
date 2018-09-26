@@ -15,42 +15,16 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
  
-public class MainGUI extends Application {
+public class Main extends Application {
 	
-	private DatabaseManager databaseManager;
+	//private DBConnection databaseManager;
 	
     public static void main(String[] args) {
         launch(args);
-
-    }
-    
-    // use getter to send vars to mainGUI
-	
-    //private String[] varList;
-    private String vFirstName = "FjhjhName";
-    private String vLastName = "LName";
-    private String vTelephone = "012345";
-
-    
-    public String[] getFirstName() { 
-    	String[] vArray = {vFirstName, vLastName, vTelephone};
-    	return vArray; 
-    	
-    }
-    
-    
-    // use getter to send vars to mainGUI
-    
-    
-    
+    }   
+  
     @Override
     public void start(Stage primaryStage) {
-    	
-
-        
-    	
-    	// use this to connect to MySQL DB
-    	databaseManager = new DatabaseManager();
     	
         primaryStage.setTitle("JavaFX Welcome");
         
@@ -60,24 +34,14 @@ public class MainGUI extends Application {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         
-        Text scenetitle = new Text("Welcome");
+        Text scenetitle = new Text("Main Window");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 2, 1);
-
-        Label nameLabel = new Label("Name:");
-        grid.add(nameLabel, 0, 1);
-        TextField nameTextField = new TextField();
-        grid.add(nameTextField, 1, 1);
-
-        Label telLabel = new Label("Tel:");
-        grid.add(telLabel, 0, 2);
-        TextField telTextField = new TextField();
-        grid.add(telTextField, 1, 2);
 
         final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
         
-        Button btn = new Button("save data");
+        Button btn = new Button("Insert Data");
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
@@ -87,8 +51,9 @@ public class MainGUI extends Application {
         	 
             @Override
             public void handle(ActionEvent e) {
-                actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("data saved in db! (not working)");
+            	PopupInsert popupInsert = new PopupInsert();
+            	popupInsert.init();
+	                
             }
         });
 

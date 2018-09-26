@@ -1,22 +1,19 @@
 import java.sql.*;
 
-public class DatabaseManager {
+public class DBConnection {
 	
 	Connection conn;
 	
 	// use getter to get vars from mainGUI
-    MainGUI MG = new MainGUI();
-    String[] vArray = MG.getFirstName();
- // use getter to get vars from mainGUI
-	
+    //PopupInsert popupInsert = new PopupInsert();
+    //String[] vArray = popupInsert.getVars();
+    
+ 
+    // use getter to get vars from mainGUI  
     
     
-    
-	public DatabaseManager() { // string varFirstName, string varLastName, string varTelephone
+	public DBConnection(String[] vArray) { // string varFirstName, string varLastName, string varTelephone
 		System.out.println("DatabaseManager instantiated.");
-		
-
-		
 		try {
 	    // create a mysql database connection	
 		//String myDriver = "org.gjt.mm.mysql.Driver";
@@ -33,16 +30,12 @@ public class DatabaseManager {
 	    // the mysql insert statement
 	    String query = " insert into firsttable (first_name, last_name, telephone)"
 	    	+ " values (?, ?, ?)";
-
-        //String varFirstName = "Neu";
-        String varLastName = "2312313";
-        String varTelephone = "010190";
 	    
 	    // create the mysql insert preparedstatement
 	    PreparedStatement preparedStmt = conn.prepareStatement(query);
 	    preparedStmt.setString (1, vArray[0]); // preparedStmt.setString (1, "Fanta"); // 
-	    preparedStmt.setString (2, varLastName); //preparedStmt.setString (2, "Trinker");
-	    preparedStmt.setString   (3, varTelephone); // preparedStmt.setString   (3, "1234");
+	    preparedStmt.setString (2, vArray[1]); //preparedStmt.setString (2, "Trinker");
+	    preparedStmt.setString   (3, vArray[2]); // preparedStmt.setString   (3, "1234");
 	      
 	    // execute the preparedstatement
 	    preparedStmt.execute();
