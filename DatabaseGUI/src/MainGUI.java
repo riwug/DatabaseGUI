@@ -21,13 +21,35 @@ public class MainGUI extends Application {
 	
     public static void main(String[] args) {
         launch(args);
+
     }
+    
+    // use getter to send vars to mainGUI
+	
+    //private String[] varList;
+    private String vFirstName = "FjhjhName";
+    //private String varLastName = "LName";
+    //private String varTelephone = "012345";
+
+    
+    public String getFirstName() { 
+    	
+    	return vFirstName; 
+    	
+    }
+    
+    // use getter to send vars to mainGUI
+    
+    
     
     @Override
     public void start(Stage primaryStage) {
     	
+
+        
+    	
     	// use this to connect to MySQL DB
-    	// databaseManager = new DatabaseManager();
+    	databaseManager = new DatabaseManager();
     	
         primaryStage.setTitle("JavaFX Welcome");
         
