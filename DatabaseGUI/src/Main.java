@@ -41,7 +41,7 @@ public class Main extends Application {
         final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
         
-        Button btn = new Button("Insert Data");
+        Button btn = new Button("Insert Data Richard");
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
