@@ -27,14 +27,14 @@ public class MainGUI extends Application {
     // use getter to send vars to mainGUI
 	
     //private String[] varList;
-    private String vFirstName1 = "FjhjhName";
+    private String vFirstName = "FjhjhName";
     //private String varLastName = "LName";
     //private String varTelephone = "012345";
 
     
     public String getFirstName() { 
     	
-    	return vFirstName1; 
+    	return vFirstName; 
     	
     }
     
