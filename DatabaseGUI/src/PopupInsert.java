@@ -80,7 +80,8 @@ public class PopupInsert {
             	
             	if ( (vFirstName != null) && (vLastName != null) && (vTelephone != null) ) {
             		String[] vArray = { vFirstName, vLastName, vTelephone };
-            		DBConnection dbconnectionYouCanWriteWhateverYouWant = new DBConnection(vArray);	
+            		DBConnWrite dbconn = new DBConnWrite();	
+            		dbconn.writeIntoDB(vArray);
             		
             		firstNameTextField.setText(null);
             		lastNameTextField.setText(null);

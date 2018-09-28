@@ -1,10 +1,10 @@
 import java.sql.*;
-
+import java.sql.Connection;
 
 // https://blog.ngopal.com.np/2011/10/19/dyanmic-tableview-data-from-database/
 // code to connect so DB from this homepage seems much more clean
 
-public class DBConnection {
+public class DBConnWrite {
 	
     private static Connection conn;
     private static String myUrl = "jdbc:mysql://127.0.0.1:8889/firstdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
@@ -18,8 +18,28 @@ public class DBConnection {
  
     // use getter to get vars from mainGUI  
     
+    public void writeIntoDB(String[] vArray) {
+	    // the mysql insert statement
+	    String query = " insert into firsttable (first_name, last_name, telephone)"
+	    	+ " values (?, ?, ?)";
+	    
+	    // create the mysql insert preparedstatement
+	    try {
+	    PreparedStatement preparedStmt = conn.prepareStatement(query);
+	    preparedStmt.setString (1, vArray[0]); // preparedStmt.setString (1, "Fanta"); // 
+	    preparedStmt.setString (2, vArray[1]); //preparedStmt.setString (2, "Trinker");
+	    preparedStmt.setString   (3, vArray[2]); // preparedStmt.setString   (3, "1234");
+	      
+	    // execute the preparedstatement
+	    preparedStmt.execute();
+	    conn.close();
+	    }
+	    catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+    }
     
-	public DBConnection(String[] vArray) { // string varFirstName, string varLastName, string varTelephone
+	public DBConnWrite() { // string varFirstName, string varLastName, string varTelephone
 		System.out.println("DatabaseManager instantiated.");
 		try {
 	    // create a mysql database connection	
@@ -33,19 +53,7 @@ public class DBConnection {
 	    	conn = DriverManager.getConnection(myUrl, user, pass);
 	    } catch (Exception e) { e.printStackTrace(); }
 	         
-	    // the mysql insert statement
-	    String query = " insert into firsttable (first_name, last_name, telephone)"
-	    	+ " values (?, ?, ?)";
-	    
-	    // create the mysql insert preparedstatement
-	    PreparedStatement preparedStmt = conn.prepareStatement(query);
-	    preparedStmt.setString (1, vArray[0]); // preparedStmt.setString (1, "Fanta"); // 
-	    preparedStmt.setString (2, vArray[1]); //preparedStmt.setString (2, "Trinker");
-	    preparedStmt.setString   (3, vArray[2]); // preparedStmt.setString   (3, "1234");
-	      
-	    // execute the preparedstatement
-	    preparedStmt.execute();
-	    conn.close();
+
 	    }
 	    catch (Exception e) {
 	    	System.err.println("Got an exception!");
@@ -53,5 +61,11 @@ public class DBConnection {
 	    	e.printStackTrace();
 	    }
 	
-	}	
+	}
+	
+	
+	
+	
+	
+	
 }
