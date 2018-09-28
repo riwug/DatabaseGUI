@@ -1,3 +1,6 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -27,7 +30,8 @@ public class PopupInsert {
     	return vArray; 
     	
     }*/
-
+	Connection conn;
+	
     public void init() {
     	 
     	Stage primaryStage = new Stage();
@@ -59,12 +63,17 @@ public class PopupInsert {
         grid.add(telLabel, 0, 3);
         TextField telTextField = new TextField(null);
         grid.add(telTextField, 1, 3);
-                
+
+        Label cluLabel = new Label("Cluster");
+        grid.add(cluLabel, 0, 4);
+        TextField cluTextField = new TextField(null);
+        grid.add(cluTextField, 1, 4);
+        
         Button btn = new Button("save data");
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
-        grid.add(hbBtn, 1, 4);
+        grid.add(hbBtn, 1, 5);
         
         final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
@@ -77,18 +86,25 @@ public class PopupInsert {
             	String vFirstName = firstNameTextField.getText();
             	String vLastName = lastNameTextField.getText();
             	String vTelephone = telTextField.getText();
+            	String vClu = cluTextField.getText();
             	
-            	if ( (vFirstName != null) && (vLastName != null) && (vTelephone != null) ) {
-            		String[] vArray = { vFirstName, vLastName, vTelephone };
-            		DBConnection dbconnectionYouCanWriteWhateverYouWant = new DBConnection(vArray);	
+            	if ( (vFirstName != null) && (vLastName != null) && (vTelephone != null) && (vClu != null)) {
+            		String[] vArray = { vFirstName, vLastName, vTelephone, vClu };
+            		try {
+            			conn = DBConnect.connect2();
+            			//DBConnWrite dbconn = new DBConnWrite();	
+            			writeIntoDB(vArray);
             		
-            		firstNameTextField.setText(null);
-            		lastNameTextField.setText(null);
-            		telTextField.setText(null);
+            			firstNameTextField.setText(null);
+            			lastNameTextField.setText(null);
+            			telTextField.setText(null);
+            			cluTextField.setText(null);
             		
-            		actiontarget.setFill(Color.GREEN);
-            		actiontarget.setText("Data saved!");
-            		// Todo: data correct, Database updated!
+            			actiontarget.setFill(Color.GREEN);
+            			actiontarget.setText("Data saved!");
+            			// Todo: data correct, Database updated!
+            		}
+            		catch (Exception e2) {}
             	}
             	else {
             		actiontarget.setFill(Color.FIREBRICK);
@@ -102,9 +118,32 @@ public class PopupInsert {
             }
         });
     
-        Scene scene = new Scene(grid, 300, 275);
+        Scene scene = new Scene(grid, 800,600);
         primaryStage.setScene(scene);
         
         primaryStage.show();
     }
+    
+    public void writeIntoDB(String[] vArray) {
+	    // the mysql insert statement
+	    String query = " insert into firsttable (first_name, last_name, telephone, clu)"
+	    	+ " values (?, ?, ?, ?)";
+	    
+	    // create the mysql insert preparedstatement
+	    try {
+	    PreparedStatement preparedStmt = conn.prepareStatement(query);
+	    preparedStmt.setString (1, vArray[0]); // preparedStmt.setString first_name 
+	    preparedStmt.setString (2, vArray[1]); //preparedStmt.setString last_name
+	    preparedStmt.setString   (3, vArray[2]); // preparedStmt.setString   telephone
+	    preparedStmt.setString   (4, vArray[3]); // preparedStmt.setString   Group X
+	      
+	    // execute the preparedstatement
+	    preparedStmt.execute();
+	    conn.close();
+	    }
+	    catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+    }
+    
 }
