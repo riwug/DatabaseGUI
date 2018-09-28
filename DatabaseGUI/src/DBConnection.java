@@ -1,15 +1,8 @@
 import java.sql.*;
 
-
-// https://blog.ngopal.com.np/2011/10/19/dyanmic-tableview-data-from-database/
-// code to connect so DB from this homepage seems much more clean
-
 public class DBConnection {
 	
-    private static Connection conn;
-    private static String myUrl = "jdbc:mysql://127.0.0.1:8889/firstdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-    private static String user = "root";
-    private static String pass = "root";
+	Connection conn;
 	
 	// use getter to get vars from mainGUI
     //PopupInsert popupInsert = new PopupInsert();
@@ -27,10 +20,11 @@ public class DBConnection {
 		String myDriver = "com.mysql.cj.jdbc.Driver";
 	      
 	    //Get Connection
+	    String myUrl = "jdbc:mysql://127.0.0.1:8889/firstdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	    Class.forName(myDriver);
 
 	    try {
-	    	conn = DriverManager.getConnection(myUrl, user, pass);
+	    	conn = DriverManager.getConnection(myUrl, "root", "root");
 	    } catch (Exception e) { e.printStackTrace(); }
 	         
 	    // the mysql insert statement
@@ -52,6 +46,5 @@ public class DBConnection {
 	    	System.err.println(e.getMessage());
 	    	e.printStackTrace();
 	    }
-	
 	}	
 }
