@@ -103,7 +103,7 @@ public class PopupInsert {
             }
         });
     
-        Scene scene = new Scene(grid, 300, 275);
+        Scene scene = new Scene(grid, 800,600);
         primaryStage.setScene(scene);
         
         primaryStage.show();

@@ -7,9 +7,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.layout.GridPane;
 import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -24,9 +27,8 @@ public class PopupDBTableview {
  
     //TABLE VIEW AND DATA
     private ObservableList<ObservableList> data;
- 
+    
     private TableView tableview;
- 
  
     //CONNECTION DATABASE
     public void buildData() {
@@ -47,7 +49,7 @@ public class PopupDBTableview {
             for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
                 //We are using non property style for making dynamic table
                 final int j = i;
-                TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i + 1));
+                TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i+1)); //  TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i+ 1));
                 col.setCellValueFactory(new Callback<CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
                     public ObservableValue<String> call(CellDataFeatures<ObservableList, String> param) {
                         return new SimpleStringProperty(param.getValue().get(j).toString());
@@ -86,18 +88,25 @@ public class PopupDBTableview {
     
     public void init() {
     	Stage primaryStage = new Stage();
-        primaryStage.setTitle("Popup Insert window");
+        primaryStage.setTitle("Tableview window");
         
         primaryStage.initModality(Modality.APPLICATION_MODAL);
-               
+        
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(50, 50, 50, 50));
     	
     	//TableView
         tableview = new TableView();
         buildData();
  
         //Main Scene
-        Scene scene = new Scene(tableview);
+        Scene scene = new Scene(tableview, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
+        
+        
     }
 }

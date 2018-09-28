@@ -22,7 +22,8 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }   
-  
+
+    
     @Override
     public void start(Stage primaryStage) {
     	
@@ -75,7 +76,7 @@ public class Main extends Application {
         });
         // Tableview Button     
         
-        Scene scene = new Scene(grid, 300, 275);
+        Scene scene = new Scene(grid, 800, 600);
         primaryStage.setScene(scene);
         
         primaryStage.show();
