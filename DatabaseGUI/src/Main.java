@@ -26,7 +26,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
     	
-        primaryStage.setTitle("JavaFX Welcome Armins Aenderung");
+        primaryStage.setTitle("JavaFX Welcome");
         
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -41,7 +41,8 @@ public class Main extends Application {
         final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
         
-        Button btn = new Button("Insert Data Richard");
+        // Insert Button
+        Button btn = new Button("Insert Data");
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
@@ -53,10 +54,27 @@ public class Main extends Application {
             public void handle(ActionEvent e) {
             	PopupInsert popupInsert = new PopupInsert();
             	popupInsert.init();
-	                
             }
         });
+        // Insert Button     
 
+        // Tableview Button
+        Button btnTableview = new Button("Future DBTable View");
+        HBox hbBtnTableview = new HBox(10);
+        hbBtnTableview.setAlignment(Pos.BOTTOM_LEFT);
+        hbBtnTableview.getChildren().add(btnTableview);
+        grid.add(hbBtnTableview, 1, 8);
+        
+        btnTableview.setOnAction(new EventHandler<ActionEvent>() {
+        	 
+            @Override
+            public void handle(ActionEvent e) {
+            	PopupDBTableview popupDBTableview = new PopupDBTableview();
+            	popupDBTableview.init();
+            }
+        });
+        // Tableview Button     
+        
         Scene scene = new Scene(grid, 300, 275);
         primaryStage.setScene(scene);
         

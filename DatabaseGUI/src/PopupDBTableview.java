@@ -15,7 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class PopupInsert {
+public class PopupDBTableview {
 	
 	//private String[] varList;
     /*private String vFirstName = "FjhjhName";
@@ -31,7 +31,7 @@ public class PopupInsert {
     public void init() {
     	 
     	Stage primaryStage = new Stage();
-        primaryStage.setTitle("Popup Insert window");
+        primaryStage.setTitle("Popup Insert");
         
         primaryStage.initModality(Modality.APPLICATION_MODAL);
         
@@ -41,7 +41,7 @@ public class PopupInsert {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         
-        Text scenetitle = new Text("Insert data");
+        Text scenetitle = new Text("DB Table View");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 2, 1);
         
@@ -80,14 +80,13 @@ public class PopupInsert {
             	
             	if ( (vFirstName != null) && (vLastName != null) && (vTelephone != null) ) {
             		String[] vArray = { vFirstName, vLastName, vTelephone };
-            		DBConnection dbconnectionYouCanWriteWhateverYouWant = new DBConnection(vArray);	
+            		DBConnection connection = new DBConnection(vArray);	
             		
             		firstNameTextField.setText(null);
             		lastNameTextField.setText(null);
             		telTextField.setText(null);
             		
-            		actiontarget.setFill(Color.GREEN);
-            		actiontarget.setText("Data saved!");
+            		actiontarget.setText(null);
             		// Todo: data correct, Database updated!
             	}
             	else {
