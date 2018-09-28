@@ -1,7 +1,51 @@
-Infos aller Art
+ -----------------
+| Infos aller Art |
+ -----------------
+
+
+*** nice to know ***
+--------------------
+
+- Eclipse: automatische getter und setter! --> klick rechts in Code --> Source --> Generate Getters and Setters
+
+
+
+*** Java in general ***
+-----------------------
+
+- Exceptions: kümmern sich um Runtime Errors
+- Typesafety: ich lege Typ der Variablen im Code fest, vor der Compilierung. Es kann also nicht passieren, dass eine Variable
+z.B. einen String enthält und während der Ausführung des Programms wird eine Nicht-String-Methode auf die
+Variable angewendet. Das geht nicht, denn das Programm "meckert" ja schon beim Kompilieren bzw. Schreiben des Codes
+
+- Collection: Oberbegriff für Listen etc. Problem: können Typesafety auflockern. Lösung: Generic Types
+- Generic Types: Typ der Collection wird mit angegeben:
+	- not typesafe Collection: List values = new ArrayList();
+	- typseafe Generic Collection: List<Integer> values = new ArrayList();
+	
+	- super Video: https://www.youtube.com/watch?v=XMvznsY02Mk
+	
+- EJB: Java Enterprise Beans https://de.wikipedia.org/wiki/Enterprise_JavaBeans
+- Was ist Java Jigsaw? https://www.informatik-aktuell.de/entwicklung/programmiersprachen/java-9-das-neue-modulsystem-jigsaw-tutorial.html
+- Was ist Maven? // Todo
+	
 
 *** git ***
-- ...
+-----------
+
+- repo address: https://github.com/riwug/DatabaseGUI
+
+
 
 *** tableView ***
-- ...
+-----------------
+
+- https://docs.oracle.com/javafx/2/ui_controls/table-view.htm
+- https://stackoverflow.com/questions/18941093/how-to-fill-up-a-tableview-with-database-data
+- https://blog.ngopal.com.np/2011/10/19/dyanmic-tableview-data-from-database/comment-page-1/
+
+- TableView besteht aus mehreren TableColumn Objekten, die z.B. resizing, Kontext-Menü oder Sortierung bereitstellen
+- CellValueFactory: ist zuständig für das Befüllen der einzelnen Zellen einer TableColumn
+
+
+
