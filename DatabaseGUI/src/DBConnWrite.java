@@ -20,15 +20,16 @@ public class DBConnWrite {
     
     public void writeIntoDB(String[] vArray) {
 	    // the mysql insert statement
-	    String query = " insert into firsttable (first_name, last_name, telephone)"
-	    	+ " values (?, ?, ?)";
+	    String query = " insert into firsttable (first_name, last_name, telephone, clu)"
+	    	+ " values (?, ?, ?, ?)";
 	    
 	    // create the mysql insert preparedstatement
 	    try {
 	    PreparedStatement preparedStmt = conn.prepareStatement(query);
-	    preparedStmt.setString (1, vArray[0]); // preparedStmt.setString (1, "Fanta"); // 
-	    preparedStmt.setString (2, vArray[1]); //preparedStmt.setString (2, "Trinker");
-	    preparedStmt.setString   (3, vArray[2]); // preparedStmt.setString   (3, "1234");
+	    preparedStmt.setString (1, vArray[0]); // preparedStmt.setString first_name 
+	    preparedStmt.setString (2, vArray[1]); //preparedStmt.setString last_name
+	    preparedStmt.setString   (3, vArray[2]); // preparedStmt.setString   telephone
+	    preparedStmt.setString   (4, vArray[3]); // preparedStmt.setString   Group X
 	      
 	    // execute the preparedstatement
 	    preparedStmt.execute();

@@ -59,12 +59,17 @@ public class PopupInsert {
         grid.add(telLabel, 0, 3);
         TextField telTextField = new TextField(null);
         grid.add(telTextField, 1, 3);
-                
+
+        Label cluLabel = new Label("Cluster");
+        grid.add(cluLabel, 0, 4);
+        TextField cluTextField = new TextField(null);
+        grid.add(cluTextField, 1, 4);
+        
         Button btn = new Button("save data");
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
-        grid.add(hbBtn, 1, 4);
+        grid.add(hbBtn, 1, 5);
         
         final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
@@ -77,15 +82,17 @@ public class PopupInsert {
             	String vFirstName = firstNameTextField.getText();
             	String vLastName = lastNameTextField.getText();
             	String vTelephone = telTextField.getText();
+            	String vClu = cluTextField.getText();
             	
-            	if ( (vFirstName != null) && (vLastName != null) && (vTelephone != null) ) {
-            		String[] vArray = { vFirstName, vLastName, vTelephone };
+            	if ( (vFirstName != null) && (vLastName != null) && (vTelephone != null) && (vClu != null)) {
+            		String[] vArray = { vFirstName, vLastName, vTelephone, vClu };
             		DBConnWrite dbconn = new DBConnWrite();	
             		dbconn.writeIntoDB(vArray);
             		
             		firstNameTextField.setText(null);
             		lastNameTextField.setText(null);
             		telTextField.setText(null);
+            		cluTextField.setText(null);
             		
             		actiontarget.setFill(Color.GREEN);
             		actiontarget.setText("Data saved!");
