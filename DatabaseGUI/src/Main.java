@@ -43,11 +43,11 @@ public class Main extends Application {
         grid.add(actiontarget, 1, 6);
         
         // Insert Button
-        Button btn = new Button("Insert Data");
+        Button btn = new Button("Insert Data - mySQL");
         HBox hbBtn = new HBox(10);
-        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+        hbBtn.setAlignment(Pos.BOTTOM_LEFT);
         hbBtn.getChildren().add(btn);
-        grid.add(hbBtn, 1, 4);
+        grid.add(hbBtn, 1, 2);
         
         btn.setOnAction(new EventHandler<ActionEvent>() {
         	 
@@ -60,11 +60,11 @@ public class Main extends Application {
         // Insert Button     
 
         // Tableview Button
-        Button btnTableview = new Button("Future DBTable View");
+        Button btnTableview = new Button("View mySQL Tableview");
         HBox hbBtnTableview = new HBox(10);
         hbBtnTableview.setAlignment(Pos.BOTTOM_LEFT);
         hbBtnTableview.getChildren().add(btnTableview);
-        grid.add(hbBtnTableview, 1, 8);
+        grid.add(hbBtnTableview, 1, 3);
         
         btnTableview.setOnAction(new EventHandler<ActionEvent>() {
         	 
@@ -75,6 +75,24 @@ public class Main extends Application {
             }
         });
         // Tableview Button     
+        
+        
+        // Mongo Button
+        Button btnMongoview = new Button("Mongo Insert");
+        HBox hbBtnMongoview = new HBox(10);
+        hbBtnMongoview.setAlignment(Pos.BOTTOM_LEFT);
+        hbBtnMongoview.getChildren().add(btnMongoview);
+        grid.add(hbBtnMongoview, 1, 4);
+        
+        btnMongoview.setOnAction(new EventHandler<ActionEvent>() {
+        	 
+            @Override
+            public void handle(ActionEvent e) {
+            	PopupMongo popupMongo = new PopupMongo();
+            	popupMongo.init();
+            }
+        });
+        // Mongo Button  
         
         Scene scene = new Scene(grid, 800, 600);
         primaryStage.setScene(scene);
