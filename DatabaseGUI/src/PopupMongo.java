@@ -37,6 +37,8 @@ public class PopupMongo {
     TextField lastNameTextFieldOut = new TextField(null);
     private String[] vSend;
     
+    TextField searchIDTextField = new TextField(null);
+    
     public void init() {
     	
     	// first make the scene
@@ -65,19 +67,11 @@ public class PopupMongo {
         grid.add(firstNameLabel, 0, 2);
         TextField firstNameTextField = new TextField(null);
         grid.add(firstNameTextField, 1, 2);
-    	
-        Label firstNameLabelOut = new Label("First Name:");
-        grid.add(firstNameLabelOut, 0, 9);
-        grid.add(firstNameTextFieldOut, 1, 9);
-        
+       
         Label lastNameLabel = new Label("Last Name:");
         grid.add(lastNameLabel, 0, 3);
         TextField lastNameTextField = new TextField(null);
         grid.add(lastNameTextField, 1, 3);
-        
-        Label lastNameLabelOut = new Label("Last Name:");
-        grid.add(lastNameLabelOut, 0, 10);
-        grid.add(lastNameTextFieldOut, 1, 10);
         
         Button btn = new Button("save data");
         HBox hbBtn = new HBox(10);
@@ -85,12 +79,28 @@ public class PopupMongo {
         hbBtn.getChildren().add(btn);
         grid.add(hbBtn, 1, 5);
         
+        Label lastNameLabelOut = new Label("Last Name:");
+        grid.add(lastNameLabelOut, 0, 10);
+        grid.add(lastNameTextFieldOut, 1, 10);
+        
+        
+        Label firstNameLabelOut = new Label("First Name:");
+        grid.add(firstNameLabelOut, 0, 9);
+        grid.add(firstNameTextFieldOut, 1, 9);
+        
+        lastNameTextFieldOut.setEditable(false);
+        firstNameTextFieldOut.setEditable(false);
+        
+        
         Button btnGet = new Button("get data");
         HBox hbBtnGet = new HBox(10);
         hbBtnGet.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtnGet.getChildren().add(btnGet);
         grid.add(hbBtnGet, 1, 8);
         
+        Label searchIDLabel = new Label("Search ID:");
+        grid.add(searchIDLabel, 0, 11);
+        grid.add(searchIDTextField, 1, 11);
         
         final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
@@ -134,7 +144,7 @@ public class PopupMongo {
             	
             		try {		
             			
-            			readFromMongoDB(vSend); // just giving him an array to read what he just wrote
+            			readFromMongoDB(searchIDTextField.getText()); // just giving him an array to read what he just wrote
             			// message about sending
             			actiontarget.setFill(Color.FIREBRICK);
                         actiontarget.setText("read from mongoDB!");
@@ -177,12 +187,12 @@ public class PopupMongo {
     }
 
     
-    public void readFromMongoDB(String[] vWrite) { // DBObject dataToWrite
+    public void readFromMongoDB(String idString) { // DBObject dataToWrite
     	MongoClient mongoClient = new MongoClient();
     	DB database = mongoClient.getDB("firstMongoDatabaseName");
     	DBCollection collection = database.getCollection("fristMongoCollectionName");
     	
-    	DBObject query = new BasicDBObject("_id", vWrite[0]);
+    	DBObject query = new BasicDBObject("_id", idString);
     	DBCursor cursor = collection.find(query);
     	DBObject jo = cursor.one();
     	
