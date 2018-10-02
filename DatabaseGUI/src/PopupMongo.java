@@ -15,14 +15,20 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.Block;
 //import com.mongodb.BulkWriteOperation;
 //import com.mongodb.BulkWriteResult;
 //import com.mongodb.Cursor;
 import com.mongodb.DB;
-import com.mongodb.DBCollection;
+//import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
@@ -31,8 +37,10 @@ import com.mongodb.MongoCredential;
 //import com.mongodb.ParallelScanOptions;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-
+import com.mongodb.client.model.Filters;
+import org.bson.Document;
 
 // most of the code comes from here
 // https://www.mongodb.com/blog/post/getting-started-with-mongodb-and-java-part-i
@@ -172,10 +180,10 @@ public class PopupMongo {
     
     
     public void writeIntoMongoDB(String[] vSend) { // DBObject dataToWrite
-    	// to test I created the DBObject here
-    	//List<Integer> books = Arrays.asList(27464, 747854); //ORI
-    	String[] books = {"Liebe", "Liebellen"};
-    	DBObject dataToWrite = new BasicDBObject("_id", vSend[0])
+    	
+    	// old format for DBCollection to write, changed because it was depricated
+        // new is MongoDatabase
+        /*DBObject dataToWrite = new BasicDBObject("_id", vSend[0])
     	                            .append("lastName", vSend[1])
     	                            .append("firstName", vSend[2])
     	                            .append("address", new BasicDBObject("street", "An der Liebe 69")
@@ -183,18 +191,57 @@ public class PopupMongo {
     	                                                         .append("state", "Traumland")
     	                                                         .append("zip", 11111))
     	                            .append("books", books);
-    	
+    	*/
+        
     	//https://stackoverflow.com/questions/35392797/how-to-connect-to-mongodb-3-2-in-java-with-username-and-password
     	MongoClientURI uri = new MongoClientURI("mongodb://"+ user + ":" + passwd+ "@localhost:27017/?authSource=" + databaseName);
-    	
     	MongoClient mongoClient = new MongoClient(uri);
-    	//MongoClient mongoClient = new MongoClient(new ServerAddress("localhost",27017), Arrays.asList(credential));
-    	DB db = mongoClient.getDB(databaseName);
-    	DBCollection collection = db.getCollection(collectionName);
+    	MongoDatabase db = mongoClient.getDatabase(databaseName);
     	
-    	
-    	collection.insert(dataToWrite);
+    	// get collections from db
+    	for (String databaseName : db.listCollectionNames()) {
+    	    
+    		System.out.println("Name of Database YO:");
+    		System.out.println(databaseName);
+        	System.out.println("____________________________________________");
+    	}
 
+
+    	// good example
+    	// http://zetcode.com/db/mongodbjava/
+    	MongoCollection<Document> collection = db.getCollection(collectionName);
+    	
+   	   	//List<Integer> books = Arrays.asList(27464, 747854); //ORI
+    	String[] books = {"Liebe", "Liebellen"};
+    	
+    	// create List to write into collection
+    	// with insertMany you need to pass a List
+    	List<Document> dataToWrite = new ArrayList<>();
+    	Document d1 = new Document("_id", vSend[0]);
+        d1.append("lastName", vSend[1]);
+        d1.append("firstName", vSend[2]);
+        d1.append("Time added", getCurrentTimeUsingDate());
+        dataToWrite.add(d1);
+        
+        // can add more than one at a time     
+/*    	Document d2 = new Document("_id", vSend[0]);
+        d2.append("lastName", vSend[1]);
+        d2.append("firstName", vSend[2]);
+        d2.append("objectAppended", "2");
+        dataToWrite.add(d2);*/
+
+
+		System.out.println("Data to write YO:");
+		System.out.println("____________________________________________");
+		System.out.println(dataToWrite);
+    	
+
+    	
+    	try {
+    		collection.insertMany(dataToWrite);
+    	}
+    	catch (Exception e2) {}
+    	
     	mongoClient.close();
     }
 
@@ -205,16 +252,43 @@ public class PopupMongo {
     	
     	MongoClient mongoClient = new MongoClient(uri);
     	//MongoClient mongoClient = new MongoClient(new ServerAddress("localhost",27017), Arrays.asList(credential));
-    	DB database = mongoClient.getDB(databaseName);
-    	DBCollection collection = database.getCollection(collectionName);
-    	    	
-    	DBObject query = new BasicDBObject("_id", idString);
-    	DBCursor cursor = collection.find(query);
-    	DBObject jo = cursor.one();
+    	MongoDatabase db = mongoClient.getDatabase(databaseName);
+    	MongoCollection<Document> collection = db.getCollection(collectionName);
+    	    
     	
+		// We iterate through the documents of the collection. The find() method finds all documents in the collection.
+    	System.out.println("Content of Collection AFTER new insert YO:");
+    	System.out.println("____________________________________________");  
+    	
+    	try (MongoCursor<Document> cur = collection.find().iterator()) {
+    		while (cur.hasNext()) {
+
+    	        Document doc = cur.next();
+    	        
+    	        List list = new ArrayList(doc.values());
+    	        System.out.print(list.get(0));
+    	        System.out.print(": ");
+    	        System.out.print(list.get(1));
+    	        System.out.print(": ");
+    	        System.out.println(list.get(2));
+    	    }
+    	}
+    	
+    	
+    	//search for _id from search textField
+    	// To specify an empty filter (i.e. match all documents in a collection), use an empty Document object.
+    	ArrayList<Document> searchResult = (ArrayList<Document>) collection.find(new Document("_id", idString)).into(new ArrayList<Document>());
+
+        System.out.println("_______");
+    	System.out.println("Index 0");
+    	System.out.println(searchResult.get(0).get("firstName"));
+    	
+    	//System.out.print("Gesucht nach ID: Output of FirstName");
+    	//System.out.println(searchResult[0]);
+
     	// Note that you’ll need to cast the value to a String, as the compiler only knows that it’s an Object.
-    	String vFirstNameFromDB = String.valueOf((cursor.one().get("firstName")));
-    	String vLastNameFromDB = String.valueOf((cursor.one().get("lastName")));
+    	String vFirstNameFromDB = String.valueOf(searchResult.get(0).get("firstName"));
+    	String vLastNameFromDB = String.valueOf(searchResult.get(0).get("lastName"));
     	
     	firstNameTextFieldOut.setText(vFirstNameFromDB);
     	lastNameTextFieldOut.setText(vLastNameFromDB);
@@ -222,4 +296,22 @@ public class PopupMongo {
     	mongoClient.close();
     	
     }
+    
+    
+    public String getCurrentTimeUsingDate() {
+        Date date = new Date();
+        String strDateFormat = "hh:mm:ss a";
+        DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
+        String formattedDate= dateFormat.format(date);
+        // System.out.println("Current time of the day using Date - 12 hour format: " + formattedDate);
+        return formattedDate.toString();
+    }
+    
+    Block<Document> printBlock = new Block<Document>() {
+        @Override
+        public void apply(final Document document) {
+            System.out.println(document.toJson());
+        }
+ };
+    
 }
