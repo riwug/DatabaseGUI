@@ -15,6 +15,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.util.Arrays;
+
 import com.mongodb.BasicDBObject;
 //import com.mongodb.BulkWriteOperation;
 //import com.mongodb.BulkWriteResult;
@@ -24,8 +26,12 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.MongoCredential;
 //import com.mongodb.ParallelScanOptions;
-//import com.mongodb.ServerAddress;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 
 
 // most of the code comes from here
@@ -38,6 +44,11 @@ public class PopupMongo {
     private String[] vSend;
     
     TextField searchIDTextField = new TextField(null);
+    
+	String user = "armindbuser";
+	String passwd = "abc123";
+	String databaseName = "firstMongoDatabaseName";
+	String collectionName = "fristMongoCollectionName";
     
     public void init() {
     	
@@ -173,13 +184,14 @@ public class PopupMongo {
     	                                                         .append("zip", 11111))
     	                            .append("books", books);
     	
-    	// we use this function to establish the connection and write into the DB at the same time
-    	// we need to UEBERGEBEN a DBObject
+    	//https://stackoverflow.com/questions/35392797/how-to-connect-to-mongodb-3-2-in-java-with-username-and-password
+    	MongoClientURI uri = new MongoClientURI("mongodb://"+ user + ":" + passwd+ "@localhost:27017/?authSource=" + databaseName);
     	
-    	//MongoClient mongoClient = new MongoClient(new MongoClientURI("127.0.0.1:27017"));	// ORI MongoClientURI("mongodb://localhost:27017")
-    	MongoClient mongoClient = new MongoClient();
-    	DB database = mongoClient.getDB("firstMongoDatabaseName"); 
-    	DBCollection collection = database.getCollection("fristMongoCollectionName");
+    	MongoClient mongoClient = new MongoClient(uri);
+    	//MongoClient mongoClient = new MongoClient(new ServerAddress("localhost",27017), Arrays.asList(credential));
+    	DB db = mongoClient.getDB(databaseName);
+    	DBCollection collection = db.getCollection(collectionName);
+    	
     	
     	collection.insert(dataToWrite);
 
@@ -188,10 +200,14 @@ public class PopupMongo {
 
     
     public void readFromMongoDB(String idString) { // DBObject dataToWrite
-    	MongoClient mongoClient = new MongoClient();
-    	DB database = mongoClient.getDB("firstMongoDatabaseName");
-    	DBCollection collection = database.getCollection("fristMongoCollectionName");
+ 	
+    	MongoClientURI uri = new MongoClientURI("mongodb://"+ user + ":" + passwd+ "@localhost:27017/?authSource=" + databaseName);
     	
+    	MongoClient mongoClient = new MongoClient(uri);
+    	//MongoClient mongoClient = new MongoClient(new ServerAddress("localhost",27017), Arrays.asList(credential));
+    	DB database = mongoClient.getDB(databaseName);
+    	DBCollection collection = database.getCollection(collectionName);
+    	    	
     	DBObject query = new BasicDBObject("_id", idString);
     	DBCursor cursor = collection.find(query);
     	DBObject jo = cursor.one();
